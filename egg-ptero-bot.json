@@ -10,7 +10,7 @@
     "description": null,
     "features": null,
     "docker_images": {
-        "rushr\/ptero-bot": "rushr\/ptero-bot"
+        "ghcr.io\/lindwen\/ptero-bot": "ghcr.io\/lindwen\/ptero-bot"
     },
     "file_denylist": [],
     "startup": "npm start",
