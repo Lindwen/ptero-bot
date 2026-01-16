@@ -1,18 +1,20 @@
-FROM node:22-alpine AS builder
+FROM node:22-slim AS builder
 
-RUN apk add --no-cache python3 make g++
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 make g++ \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY . .
 RUN npm install
 RUN npm run build
 
-FROM node:22-alpine AS production
+FROM node:22-slim AS production
 
-RUN apk update && apk add --no-cache \
-    --repository=http://dl-cdn.alpinelinux.org/alpine/v3.23/community \
-    openssl1.1-compat \
-    python3 make g++
+# Install Python and build tools for native module compilation
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 make g++ \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY --from=builder /app/dist ./dist
